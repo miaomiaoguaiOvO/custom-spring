@@ -1,5 +1,12 @@
 package com.mmg.spring;
 
+/**
+ * @author mmg
+ */
 public interface BeanNameAware {
-    void setBeanName(String beanName);
+    /**
+     * setBeanName
+     * @param beanName beanName
+     */
+    void setBeanName (String beanName);
 }

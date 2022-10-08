@@ -2,16 +2,17 @@ package com.mmg.spring;
 
 /**
  * 定义bean
+ * @author mmg
  */
 public class BeanDefinition {
-    private Class type;
+    private Class<?> type;
     private String scope;
 
-    public Class getType() {
+    public Class<?> getType() {
         return type;
     }
 
-    public void setType(Class type) {
+    public void setType(Class<?> type) {
         this.type = type;
     }
 
