@@ -27,6 +27,7 @@ public class ApplicationContext {
      * 操作bean初始化的处理器
      */
     private static final List<BeanPostProcessor> BEAN_POST_PROCESSOR_LIST = new ArrayList<>();
+    private static final String SINGLETON = "singleton";
 
     public ApplicationContext(Class<?> configClass) {
         this.configClass = configClass;
@@ -68,7 +69,7 @@ public class ApplicationContext {
                                     Scope scope = clazz.getAnnotation(Scope.class);
                                     beanDefinition.setScope(scope.value());
                                 } else {
-                                    beanDefinition.setScope("singleton");
+                                    beanDefinition.setScope(SINGLETON);
                                 }
 
                                 //创建bean之前的操作
@@ -100,7 +101,7 @@ public class ApplicationContext {
         //扫描结束后，先把单例bean生成好（实例化单例bean）
         for (String beanName : BEAN_DEFINITION_MAP.keySet()) {
             BeanDefinition beanDefinition = BEAN_DEFINITION_MAP.get(beanName);
-            if ("singleton".equals(beanDefinition.getScope())) {
+            if (SINGLETON.equals(beanDefinition.getScope())) {
                 Object bean = createBean(beanName, beanDefinition);
                 SINGLETON_OBJECTS.put(beanName, bean);
             }
@@ -111,9 +112,6 @@ public class ApplicationContext {
     /**
      * 创建bean
      * bean的生命周期 ：实例化 依赖注入
-     * @param beanName
-     * @param beanDefinition
-     * @return
      */
     private Object createBean(String beanName, BeanDefinition beanDefinition) {
         Class<?> clazz = beanDefinition.getType();
@@ -162,8 +160,6 @@ public class ApplicationContext {
 
     /**
      * 获取Bean
-     * @param beanName
-     * @return
      */
     public Object getBean(String beanName) {
         BeanDefinition beanDefinition = BEAN_DEFINITION_MAP.get(beanName);
@@ -172,7 +168,7 @@ public class ApplicationContext {
         } else {
             String scope = beanDefinition.getScope();
             //如果是个单例的
-            if ("singleton".equals(scope)) {
+            if (SINGLETON.equals(scope)) {
                 //如果是单例直接从单例池中返回
                 Object bean = SINGLETON_OBJECTS.get(beanName);
                 // 如果没有还需要创建bean并放入单例池中

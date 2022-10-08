@@ -5,6 +5,9 @@ import com.mmg.spring.Component;
 import com.mmg.spring.Scope;
 
 
+/**
+ * @author mmg
+ */
 @Component
 @Scope("singleton")
 public class UserService implements UserInterface {
